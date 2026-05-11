@@ -479,7 +479,7 @@ Save images as:
 
 After each image is generated, copy or move it into `{base_dir}/{deck_name}/origin_image/` immediately. Do not leave final slide images only in a temporary or default generated-images directory.
 
-In CLI/API fallback mode, generate slides one at a time from the `prompt` field in the saved `prompts/slide_XX.json` files. This keeps the default deck directory simple and avoids maintaining a second prompt queue. `image_gen.py` accepts `--prompt-file -` to read the prompt from stdin:
+In CLI/API fallback mode, generate slides one at a time from the `prompt` field in the saved `prompts/slide_XX.json` files only when the job does not require input images. This keeps the default deck directory simple and avoids maintaining a second prompt queue. `image_gen.py` accepts `--prompt-file -` to read the prompt from stdin:
 
 ```bash
 python3 -c 'import json, pathlib; print(json.loads(pathlib.Path("{base_dir}/{deck_name}/prompts/slide_01.json").read_text())["prompt"])' | \
@@ -489,6 +489,8 @@ python3 -c 'import json, pathlib; print(json.loads(pathlib.Path("{base_dir}/{dec
   --quality medium \
   --out {base_dir}/{deck_name}/origin_image/slide_01.png
 ```
+
+Before using this text-only `generate` path, inspect the assigned `prompts/slide_XX.json`. If `input_images` is non-empty or `requires_context_images` is true, the CLI command above is not sufficient because it does not attach those images. Use a selected backend/path that can pass the required images, such as the built-in image tool with the images visible in context or a CLI/API edit/image-input path that supplies every required source image. If no such path is available, stop and ask the user whether to switch backend; do not generate a text-only replacement for a strict input asset.
 
 Final slide image naming rules:
 

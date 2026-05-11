@@ -310,6 +310,20 @@ def main() -> int:
     if not isinstance(slides, list) or not slides:
         _die("Deck spec must include a non-empty slides array.")
 
+    numbered_slides: List[tuple[int, Dict[str, Any], int]] = []
+    seen_slide_numbers: Dict[int, int] = {}
+    for fallback, slide in enumerate(slides, start=1):
+        if not isinstance(slide, dict):
+            _die(f"Slide entry {fallback} must be an object.")
+        number = _slide_number(slide, fallback)
+        if number in seen_slide_numbers:
+            _die(
+                f"Duplicate slide number {number}: slide entries "
+                f"{seen_slide_numbers[number]} and {fallback} would both write slide_{number:02d}.json."
+            )
+        seen_slide_numbers[number] = fallback
+        numbered_slides.append((fallback, slide, number))
+
     out_dir = Path(args.out_dir)
     prompts_dir = out_dir / "prompts"
     prompts_dir.mkdir(parents=True, exist_ok=True)
@@ -321,10 +335,7 @@ def main() -> int:
         global_style_reference = dict(global_style_reference)
         global_style_reference["path"] = _resolve_image_path(global_style_reference["path"], base_dir=spec_dir)
 
-    for fallback, slide in enumerate(slides, start=1):
-        if not isinstance(slide, dict):
-            _die(f"Slide entry {fallback} must be an object.")
-        number = _slide_number(slide, fallback)
+    for fallback, slide, number in numbered_slides:
         use_style_reference = bool(slide.get("use_approved_style_reference", True))
         slide_style_reference = global_style_reference if use_style_reference else None
         prompt = _build_prompt(
