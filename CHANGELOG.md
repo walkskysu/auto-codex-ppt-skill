@@ -4,6 +4,10 @@ Release notes are generated from this file. Keep changelog entries in English.
 
 ## Unreleased
 
+### Fixes
+
+- Prevent concurrent slide state writes from overwriting dispatch, result, or blocker records.
+
 ## 0.3.2
 
 ### Documentation
