@@ -6,18 +6,18 @@ Release notes are generated from this file. Keep changelog entries in English.
 
 ### Improvements
 
-- Add deck-level and slide-level context fields to slide prompt jobs so subagents receive self-contained task packets.
-- Add a reusable style-library workflow for saving approved deck styles into `references/` for future decks.
+- Add deck-level and slide-level context fields to slide prompt jobs so subagents receive self-contained task packets. (#39)
+- Add a reusable style-library workflow for saving approved deck styles into `references/` for future decks. (#39)
 
 ### Fixes
 
-- Prevent concurrent slide state writes from overwriting dispatch, result, or blocker records.
+- Prevent concurrent slide state writes from overwriting dispatch, result, or blocker records. (#39)
 
 ### Documentation
 
-- Move detailed codex-ppt workflow guidance into supporting docs and keep the main skill file within SkillHub limits.
-- Clarify how to use user-specified styles and image/PDF/PPT/PPTX style references without forcing an extra style-selection step.
-- Require PDF/PPT/PPTX style references to be inspected as rendered page images before deriving a visual style.
+- Move detailed codex-ppt workflow guidance into supporting docs and keep the main skill file within SkillHub limits. (#39)
+- Clarify how to use user-specified styles and image/PDF/PPT/PPTX style references without forcing an extra style-selection step. (#39)
+- Require PDF/PPT/PPTX style references to be inspected as rendered page images before deriving a visual style. (#39)
 
 ## 0.3.2
 
